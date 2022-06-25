@@ -25,6 +25,7 @@ public class CodeMsg {
     public static final CodeMsg StudentId_EMPTY = new CodeMsg(500212,"学号不能为空");
     public static final CodeMsg StudentId_ERROR = new CodeMsg(500213, "学号格式错误");
     public static final CodeMsg StudentId_NOT_EXIST = new CodeMsg(500214, "学号不存在");
+    public static final CodeMsg StudentId_EXIST = new CodeMsg(500217, "学号已存在");
     public static final CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
     public static final CodeMsg REGISTER_BATCH = new CodeMsg(500216, "批量注册数量设置错误");
 

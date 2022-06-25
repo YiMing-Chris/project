@@ -11,11 +11,13 @@ import yiming.chris.GrabCourses.redis.StudentKey;
 import yiming.chris.GrabCourses.result.CodeMsg;
 import yiming.chris.GrabCourses.utils.MD5Util;
 import yiming.chris.GrabCourses.utils.UUIDUtil;
+import yiming.chris.GrabCourses.vo.CoursesVO;
 import yiming.chris.GrabCourses.vo.LoginInfoVO;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static yiming.chris.GrabCourses.utils.MD5Util.userPasswordToDBPassword;

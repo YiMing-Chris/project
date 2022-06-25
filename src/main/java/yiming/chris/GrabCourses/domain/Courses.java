@@ -19,6 +19,7 @@ public class Courses {
     private String CoursesModule;
     private String CoursesTeacher;
     private Integer CoursesStock;
+    private Integer CoursesCapacity;
     public Long getId(){
         return id;
     }

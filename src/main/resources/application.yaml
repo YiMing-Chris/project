@@ -1,0 +1,72 @@
+spring:
+  thymeleaf:
+    cache: false
+    servlet:
+      content-type: text/html
+    enabled: true
+    encoding: utf-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+
+  # config druid
+  datasource:
+    druid:
+      url: jdbc:mysql://43.142.73.234:3306/qiangke?
+      username: root
+      password: 1234
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      initial-size: 100
+      max-active: 1000
+      min-idle: 500
+      max-wait: 5000
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      validation-query: select 'x'
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      filters: stat #配置多个英文逗号分隔
+
+  # config redis
+  redis:
+    host: 43.142.73.234
+    port: 6379
+    timeout: 5000
+    lettuce:
+      pool:
+        max-active: 2000
+        max-idle: 200
+        max-wait: 3
+
+  # config rabbitmq
+  rabbitmq:
+    host: 43.142.73.234
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: mq_vhost  # docker容器中配置的名称
+    listener:
+      simple:
+        concurrency: 10  # 最小的消费者线程数量
+        max-concurrency: 10  # 最大的消费者线程数量
+        prefetch: 1  # 每个消费者最多取几个消息出队
+        auto-startup: true  # 是否启动时启动容器
+        default-requeue-rejected: true  # 消费失败重新进队
+    template:
+      retry:
+        enabled: true  # 生产者入队是否重试
+        initial-interval: 1000  # Duration between the first and second attempt to deliver a message.
+        max-attempts: 3
+        max-interval: 10000
+        multiplier: 1.0
+
+# config mybatis (http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/index.html)
+mybatis:
+    type-aliases-package: yiming.chris.GrabCourses.domainn
+    configuration:
+        map-underscore-to-camel-case: true
+        default-fetch-size: 100
+        default-statement-timeout: 3000

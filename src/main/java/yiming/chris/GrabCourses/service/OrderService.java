@@ -32,7 +32,7 @@ public class OrderService {
      */
     public SecKillOrder getSecKillOrderByStudentIdAndCoursesId(Long StudentId, Long CoursesId) {
         // 先从缓存中查看，如果没有从数据库中查询
-        SecKillOrder secKillOrder = getSecKillOrderByStudnetIdAndCoursesIdFromCache(StudentId, CoursesId);
+        SecKillOrder secKillOrder = getSecKillOrderByStudentIdAndCoursesIdFromCache(StudentId, CoursesId);
         return secKillOrder != null ? secKillOrder : orderDao.getSecKillOrderByStudentIdAndCoursesId(StudentId, CoursesId);
     }
 
@@ -66,7 +66,7 @@ public class OrderService {
     /**
      * 从缓存中查询是否包含学生抢课记录
      */
-    private SecKillOrder getSecKillOrderByStudnetIdAndCoursesIdFromCache(Long studentId, Long CourseId) {
+    private SecKillOrder getSecKillOrderByStudentIdAndCoursesIdFromCache(Long studentId, Long CourseId) {
         return (SecKillOrder) redisTemplate.opsForValue().get(OrderKey.secKillOrderKey.getPrefix()
                 + ":" + studentId + ":" + CourseId);
     }

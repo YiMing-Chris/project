@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>课程详情</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+    <!-- layer -->
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <!-- md5.js -->
+    <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+    <!-- common.js -->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+</head>
+<body>
+
+<div class="panel panel-default">
+  <div class="panel-heading">选课课程详情</div>
+  <div class="panel-body">
+  	<span th:if="${user eq null}"> 您还没有登录，请登陆后再操作<br/></span>
+
+  </div>
+  <table class="table" id="goodslist">
+  	<tr>  
+        <td>课程名称</td>
+        <td colspan="3" th:text="${courses.coursesName}"></td>
+     </tr>  
+     <tr>
+        <td colspan="3"><img th:src="@{${courses.coursesImg}}" width="100" height="100" /></td>
+     </tr>
+     <tr>  
+        <td>选课开始时间</td>
+        <td th:text="${#dates.format(courses.startDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td id="miaoshaTip">
+        	<input type="hidden" id="remainSeconds" th:value="${remainSeconds}" />
+        	<span th:if="${secKillStatus eq 0}">选课倒计时：<span id="countDown" th:text="${remainSeconds}"></span>秒</span>
+        	<span th:if="${secKillStatus eq 1}">选课进行中</span>
+        	<span th:if="${secKillStatus eq 2}">选课已结束</span>
+        </td>
+        <td>
+        	<form id="miaoshaForm" method="post" action="/grab/grab">
+        		<button class="btn btn-primary btn-block" type="submit" id="buyButton">立即选课</button>
+        		<input type="hidden" name="goodsId" th:value="${courses.id}" />
+        	</form>
+        </td>
+     </tr>
+      <tr>
+          <td>课程模块</td>
+          <td colspan="3" th:text="${courses.coursesModule}"></td>
+      </tr>
+      <tr>
+          <td>授课教师</td>
+          <td colspan="3" th:text="${courses.coursesTeacher}"></td>
+      </tr>
+     <tr>  
+        <td>课程余量</td>
+        <td colspan="3" th:text="${courses.stockCount}"></td>
+     </tr>
+  </table>
+</div>
+</body>
+<script>
+$(function(){
+	countDown();
+});
+
+function countDown(){
+	var remainSeconds = $("#remainSeconds").val();
+	var timeout;
+	if(remainSeconds > 0){//选课还没开始，倒计时
+		$("#buyButton").attr("disabled", true);
+		timeout = setTimeout(function(){
+			$("#countDown").text(remainSeconds - 1);
+			$("#remainSeconds").val(remainSeconds - 1);
+			countDown();
+		},1000);
+	}else if(remainSeconds == 0){//选课进行中
+		$("#buyButton").attr("disabled", false);
+		if(timeout){
+			clearTimeout(timeout);
+		}
+		$("#miaoshaTip").html("选课进行中");
+	}else{//秒杀已经结束
+		$("#buyButton").attr("disabled", true);
+		$("#miaoshaTip").html("选课已经结束");
+	}
+}
+</script>
+</html>

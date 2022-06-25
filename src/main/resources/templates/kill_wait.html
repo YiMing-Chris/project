@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>选课排队中</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+选课排队中：<p th:text="${killMsg}"></p>
+<td>
+    <form id="miaoshaForm" method="post" action="/grab/result">
+        <button class="btn btn-primary btn-block" type="submit" id="buyButton">查看结果</button>
+        <input type="hidden" name="goodsId" th:value="${coursesId}" />
+    </form>
+</td>
+</body>
+</html>
