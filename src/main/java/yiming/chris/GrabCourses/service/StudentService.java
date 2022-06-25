@@ -11,13 +11,11 @@ import yiming.chris.GrabCourses.redis.StudentKey;
 import yiming.chris.GrabCourses.result.CodeMsg;
 import yiming.chris.GrabCourses.utils.MD5Util;
 import yiming.chris.GrabCourses.utils.UUIDUtil;
-import yiming.chris.GrabCourses.vo.CoursesVO;
 import yiming.chris.GrabCourses.vo.LoginInfoVO;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static yiming.chris.GrabCourses.utils.MD5Util.userPasswordToDBPassword;
@@ -42,9 +40,7 @@ public class StudentService {
 
     /**
      * 登录服务，包含第二次MD5加密的逻辑
-     *
-     * @param loginInfoVO
-     * @return
+
      */
     public String login(HttpServletResponse response, LoginInfoVO loginInfoVO) {
         if (loginInfoVO == null) {
@@ -67,16 +63,12 @@ public class StudentService {
         }
 
         // 用户输入信息正确后，在Redis中保存Session信息，浏览器保存Cookie
-        String token = addCookie(response, student);
 
-        return token;
+        return addCookie(response, student);
     }
 
     /**
      * 在Redis中保存Session信息，浏览器保存Cookie，返回Token
-     *
-     * @param response
-     * @param student
      */
     private String addCookie(HttpServletResponse response, Student student) {
         String token = UUIDUtil.uuid();
@@ -94,9 +86,6 @@ public class StudentService {
 
     /**
      * 批量注册用户功能，用于JMeter的压测
-     *
-     * @param num 批量数量
-     * @return
      */
 
     public CodeMsg batchRegister(Integer num) {
@@ -104,11 +93,12 @@ public class StudentService {
             throw new GlobalException(CodeMsg.REGISTER_BATCH);
         }
         for (int i = 0; i < num; i++) {
+            String temp = generate12ValidateSalt();
             Student student = new Student();
-            student.setId(12320890318L + i);
+            student.setId(19195101L + i);
             student.setNickname("student" + i);
-            student.setPassword(userPasswordToDBPassword("password" + i, generate12ValidateSalt()));
-            student.setSalt(generate12ValidateSalt());
+            student.setPassword(userPasswordToDBPassword("password" + i,temp));
+            student.setSalt(temp);
             student.setRegisterDate(new Date());
             student.setLastLoginDate(new Date());
             student.setLoginCount(0);
