@@ -81,11 +81,11 @@ import java.util.concurrent.TimeUnit;
                     redisTemplate.opsForValue().set(accessKey, 1);
                     redisTemplate.expire(accessKey, accessLimitKey.expireSeconds(), TimeUnit.SECONDS);
                 }
-                // 仍然在限制内
+                // 仍然在限制内，放行
                 else if (count <= maxValue) {
                     redisTemplate.opsForValue().increment(accessKey);
                 }
-                // 超出最大访问次数限制
+                // 超出最大访问次数限制，拒绝后续访问
                 else {
                     render(response, CodeMsg.ACCESS_BEYOND_LIMIT);
                     return false;

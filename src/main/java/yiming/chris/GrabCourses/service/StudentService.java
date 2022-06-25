@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static yiming.chris.GrabCourses.utils.MD5Util.userPasswordToDBPassword;
+import static yiming.chris.GrabCourses.utils.ValidateSaltUtil.generate12ValidateSalt;
 
 /**
  * ClassName:StudentService
@@ -104,8 +105,8 @@ public class StudentService {
             Student student = new Student();
             student.setId(12320890318L + i);
             student.setNickname("student" + i);
-            student.setPassword(userPasswordToDBPassword("password" + i, "salt" + i));
-            student.setSalt("salt" + i);
+            student.setPassword(userPasswordToDBPassword("password" + i, generate12ValidateSalt()));
+            student.setSalt(generate12ValidateSalt());
             student.setRegisterDate(new Date());
             student.setLastLoginDate(new Date());
             student.setLoginCount(0);

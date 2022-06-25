@@ -1,6 +1,9 @@
 package yiming.chris.GrabCourses.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.ibatis.javassist.tools.rmi.Sample;
+
+import static yiming.chris.GrabCourses.utils.ValidateSaltUtil.generate12ValidateSalt;
 
 /**
  * ClassName:MD5Util
@@ -57,7 +60,9 @@ public class MD5Util {
 
     //密码测试
     public static void main(String[] args) {
-        System.out.println(userPasswordToDBPassword("password0", "salt0"));
+        String salt = generate12ValidateSalt();
+        System.out.println(userPasswordToDBPassword("password0", salt));
+        System.out.println(salt);
     }
 
 }
