@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import yiming.chris.GrabCourses.dao.StudentDao;
 import yiming.chris.GrabCourses.domain.Student;
 import yiming.chris.GrabCourses.exception.GlobalException;
+import yiming.chris.GrabCourses.redis.StudentKey;
 import yiming.chris.GrabCourses.result.CodeMsg;
 import yiming.chris.GrabCourses.utils.MD5Util;
 import yiming.chris.GrabCourses.utils.UUIDUtil;
@@ -50,9 +51,9 @@ public class StudentService {
         String mobile = loginInfoVO.getId();
         String formPassword = loginInfoVO.getPassword();
 
-        Student student = studentDao.getUserById(Long.parseLong(mobile));
+        Student student = studentDao.getStudentById(Long.parseLong(mobile));
         if (student == null) {
-            throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
+            throw new GlobalException(CodeMsg.StudentId_NOT_EXIST);
         }
 
         // 验证密码，二次MD5加密验证
@@ -76,8 +77,8 @@ public class StudentService {
      */
     private String addCookie(HttpServletResponse response, Student student) {
         String token = UUIDUtil.uuid();
-        String key = UserKey.userKey.getPrefix() + ":" + token;
-        int expire = UserKey.userKey.expireSeconds();
+        String key = StudentKey.studentKey.getPrefix() + ":" + token;
+        int expire = StudentKey.studentKey.expireSeconds();
         redisTemplate.opsForValue().set(key, student);
         redisTemplate.expire(key, expire, TimeUnit.SECONDS);
 
@@ -115,16 +116,14 @@ public class StudentService {
 
     /**
      * 根据Token查询用户信息
-     *
-     * @param token
-     * @return
      */
     public Student getUserByToken(String token) {
+        //如果token为空，直接返回
         if (StringUtils.isEmpty(token)) {
             return null;
         }
-        String key = UserKey.userKey.getPrefix() + ":" + token;
-        int expire = UserKey.userKey.expireSeconds();
+        String key = StudentKey.studentKey.getPrefix() + ":" + token;
+        int expire = StudentKey.studentKey.expireSeconds();
         // 更新用户Session有效期，如果key不存在，并不会在redis新生成key
         redisTemplate.expire(key, expire, TimeUnit.SECONDS);
         return (Student) redisTemplate.opsForValue().get(key);

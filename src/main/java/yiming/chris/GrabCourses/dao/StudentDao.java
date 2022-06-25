@@ -17,7 +17,7 @@ import yiming.chris.GrabCourses.domain.Student;
 public interface StudentDao {
 
     @Select("SELECT * FROM qiangke_student WHERE id = #{id}")
-    Student getUserById(@Param("id") Long id);
+    Student getStudentById(@Param("id") Long id);
 
 
     @Insert("INSERT INTO qiangke_student VALUES (#{id}, #{nickname}, #{password}, #{salt}, #{registerDate}, #{lastLoginDate}, #{loginCount})")

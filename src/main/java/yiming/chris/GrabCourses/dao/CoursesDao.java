@@ -21,7 +21,7 @@ public interface CoursesDao {
 
 
     @Select("SELECT c.*,  qc.stock_count, qc.start_date, qc.end_date FROM courses c RIGHT JOIN qiangke_courses qc ON c.id = qc.courses_id")
-    List<CoursesVO> getGoodsVOs();
+    List<CoursesVO> getCoursesVOs();
 
 
     @Select("SELECT c.*,  qc.stock_count, qc.start_date, qc.end_date FROM courses c INNER JOIN qiangke_courses qc ON c.id = qc.courses_id AND c.id = #{CoursesId}")

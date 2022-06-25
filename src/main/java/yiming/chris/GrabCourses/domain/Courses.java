@@ -19,4 +19,7 @@ public class Courses {
     private String CoursesModule;
     private String CoursesTeacher;
     private Integer CoursesStock;
+    public Long getId(){
+        return id;
+    }
 }

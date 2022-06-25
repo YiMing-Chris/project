@@ -1,6 +1,7 @@
 package yiming.chris.GrabCourses.vo;
 
 import lombok.Data;
+import yiming.chris.GrabCourses.domain.Courses;
 
 import java.util.Date;
 
@@ -12,8 +13,9 @@ import java.util.Date;
  * @Author: ChrisEli
  */
 @Data
-public class CoursesVO {
+public class CoursesVO extends Courses {
     private Integer stockCount;
     private Date startDate;
     private Date endDate;
+
 }

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import yiming.chris.GrabCourses.annotation.AccessLimit;
 import yiming.chris.GrabCourses.context.UserContext;
 import yiming.chris.GrabCourses.domain.Student;
+import yiming.chris.GrabCourses.redis.AccessLimitKey;
 import yiming.chris.GrabCourses.result.CodeMsg;
 import yiming.chris.GrabCourses.result.ServerResponse;
 import yiming.chris.GrabCourses.service.StudentService;
@@ -107,6 +108,7 @@ import java.util.concurrent.TimeUnit;
             outputStream.close();
         }
 
+        //从request中获取登录用户的的
         public Student getUser(HttpServletRequest request) {
             String paramToken = request.getParameter(StudentService.COOKIE_TOKEN_NAME);
             String cookieToken = getCookieValue(request, StudentService.COOKIE_TOKEN_NAME);
@@ -118,7 +120,6 @@ import java.util.concurrent.TimeUnit;
             // 根据Token查询User
             return studentService.getUserByToken(token);
         }
-
 
         /**
          * 根据Cookie的名称获取对应的值
