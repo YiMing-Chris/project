@@ -71,7 +71,7 @@ public class SecKillService {
      * 在Redis中设置某课程的抢课活动是否结束
      */
     private void setSecKillOver(Long courseId) {
-        redisTemplate.opsForValue().set(CoursesKey.goodsSecKillOverKey.getPrefix() + ":" + courseId, true);
+        redisTemplate.opsForValue().set(CoursesKey.coursesSecKillOverKey.getPrefix() + ":" + courseId, true);
     }
 
     /**
@@ -80,7 +80,7 @@ public class SecKillService {
      * @return
      */
     private boolean getSecKillOver(Long courseId) {
-        return redisTemplate.hasKey(CoursesKey.goodsSecKillOverKey.getPrefix() + ":" + courseId);
+        return redisTemplate.hasKey(CoursesKey.coursesSecKillOverKey.getPrefix() + ":" + courseId);
     }
 
 }

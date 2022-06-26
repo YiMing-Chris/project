@@ -72,7 +72,7 @@ public class OrderService {
     }
 
     /**
-     * 在缓存中插入选课记录
+     * 在缓存中插入抢课记录
      */
     private void insertSecKillOrderInCache(SecKillOrder secKillOrder) {
         redisTemplate.opsForValue().set(OrderKey.secKillOrderKey.getPrefix()
