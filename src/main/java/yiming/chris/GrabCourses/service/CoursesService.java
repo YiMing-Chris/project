@@ -30,7 +30,7 @@ public class CoursesService {
     /**
      * 通过学号获取所有抢课课程详情
      */
-    public CoursesVO getCoursesDetailByStudentId(Long StudentId) {
+    public List<CoursesVO> getCoursesDetailByStudentId(Long StudentId) {
         return coursesDao.getCoursesDetailByStudentId(StudentId);
     }
 

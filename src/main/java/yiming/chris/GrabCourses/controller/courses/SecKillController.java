@@ -106,8 +106,8 @@ public class SecKillController implements InitializingBean {
             return "kill_fail";
         }
         model.addAttribute("user", student);
-        CoursesVO coursesVO = coursesService.getCoursesDetailByStudentId(student.getId());
-        model.addAttribute("course", coursesVO);
+        List<CoursesVO> coursesVO = coursesService.getCoursesDetailByStudentId(student.getId());
+        model.addAttribute("coursesList", coursesVO);
         // 获取用户抢课结果
         Long status = secKillService.getSecKillResult(student.getId(), coursesId);
         String Msg;
