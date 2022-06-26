@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>选课结果</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+选课结果：<p th:text="${status}"></p>
+<tr>
+  <td>课程名称</td>
+  <td colspan="3" th:text="${course.coursesName}"></td>
+</tr>
+<tr>
+  <td>课程详情</td>
+  <td colspan="3" th:text="${course.coursesDetail}"></td>
+</tr>
+<tr>
+  <td>授课教师</td>
+  <td colspan="3" th:text="${course.coursesTeacher}"></td>
+</tr>
+</body>
+</html>

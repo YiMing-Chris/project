@@ -22,6 +22,7 @@ import yiming.chris.GrabCourses.service.OrderService;
 import yiming.chris.GrabCourses.service.SecKillService;
 import yiming.chris.GrabCourses.vo.CoursesVO;
 
+import javax.tools.Diagnostic;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import java.util.List;
  * ClassName:SecKillController
  * Package:yiming.chris.GrabCourses.controller.courses
  * Description:
+ *
  * @Author: ChrisEli
  */
 @Controller
@@ -61,7 +63,7 @@ public class SecKillController implements InitializingBean {
         model.addAttribute("user", student);
 
         // 先访问内存标记，查看是否卖完
-        if ( coursesSecKillOverMap.get(coursesId)) {
+        if (coursesSecKillOverMap.get(coursesId)) {
             model.addAttribute("errorMsg", CodeMsg.SECKILL_OVER.getMsg());
             return "kill_fail";
         }
@@ -95,27 +97,38 @@ public class SecKillController implements InitializingBean {
 
     /**
      * 用于客户端轮询秒杀结果的接口
+     *
      * @param model
      * @param
      * @param coursesId
      * @return -1：抢课失败 0-抢课排队中 orderId-抢课成功
      */
     @RequestMapping("/result")
-    @ResponseBody
-    public ServerResponse<Long> asyncSecKillResult(Model model, Student student, @RequestParam("coursesId") Long coursesId) {
+    public String asyncSecKillResult(Model model, Student student, @RequestParam("coursesId") Long coursesId) {
         if (student == null) {
-            return ServerResponse.error(CodeMsg.SESSION_ERROR);
+            return "kill_fail";
         }
         model.addAttribute("user", student);
-
-        // 获取用户秒杀商品结果
+        CoursesVO coursesVO = coursesService.getCoursesVO(student.getId());
+        model.addAttribute("course", coursesVO);
+        // 获取用户抢课结果
         Long status = secKillService.getSecKillResult(student.getId(), coursesId);
-        return ServerResponse.success(status);
+        String Msg;
+        if (status == -1L) {
+            Msg = "抢课失败";
+        }else if(status == 0L){
+            Msg = "排队中";
+        }else{
+            Msg = "抢课成功";
+        }
+        model.addAttribute("status", Msg);
+        return "kill_result";
     }
 
     /**
      * Spring提供的初始化后方法，在当前bean初始化后会被执行
      * 利用该方法在系统初始化时加载库存到Redis
+     *
      * @throws Exception
      */
     @Override

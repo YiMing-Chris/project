@@ -28,6 +28,13 @@ public class CoursesService {
     }
 
     /**
+     * 通过学号获取所有抢课课程详情
+     */
+    public CoursesVO getCoursesVO(Long StudentId) {
+        return coursesDao.getCoursesVO(StudentId);
+    }
+
+    /**
      * 获取某门课程详细信息
      */
     public CoursesVO getCoursesDetailById(Long courseId) {
