@@ -64,5 +64,6 @@ public class MD5Util {
         System.out.println(userPasswordToDBPassword("password0", salt));
         System.out.println(salt);
     }
+    
 
 }

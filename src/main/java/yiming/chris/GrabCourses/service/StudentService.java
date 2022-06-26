@@ -47,10 +47,10 @@ public class StudentService {
             throw new GlobalException(CodeMsg.SERVER_ERROR);
         }
 
-        String mobile = loginInfoVO.getId();
+        String id = loginInfoVO.getId();
         String formPassword = loginInfoVO.getPassword();
 
-        Student student = studentDao.getStudentById(Long.parseLong(mobile));
+        Student student = studentDao.getStudentById(Long.parseLong(id));
         if (student == null) {
             throw new GlobalException(CodeMsg.StudentId_NOT_EXIST);
         }

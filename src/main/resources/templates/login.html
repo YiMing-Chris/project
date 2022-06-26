@@ -28,7 +28,7 @@
         <div class="row">
             <label class="form-label col-md-4">请输入学号</label>
             <div class="col-md-5">
-                <input id="mobile" name="mobile" class="form-control" type="text" placeholder="学号" required="true"
+                <input id="id" name="id" class="form-control" type="text" placeholder="学号" required="true"
                        minlength="8" maxlength="8"/>
             </div>
             <div class="col-md-1"></div>
@@ -70,14 +70,14 @@
             url: "/user/do_login",
             type: "POST",
             data:{
-                mobile: $("#Id").val(),
+                id: $("#id").val(),
                 password: password
             },
             success:function(data) {
                 layer.closeAll();
                 if(data.code == 0){
                     layer.msg("成功");
-                    window.location.href="/goods/list";
+                    window.location.href="/courses/list";
                 }else{
                     layer.msg(data.msg);
                 }

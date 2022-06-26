@@ -1,4 +1,6 @@
+
 <!DOCTYPE HTML>
+
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>课程列表</title>
@@ -22,7 +24,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">抢课列表</div>
-    <table class="table" id="goodslist">
+    <table class="table" id="coursesList">
         <tr><td>课程名称</td><td>课程图片</td><td>课程模块</td><td>授课教师</td><td>课程容量</td><td>课程余量</td><td>详情</td></tr>
         <tr  th:each="goods,goodsStat : ${coursesList}">
             <td th:text="${goods.coursesName}"></td>
