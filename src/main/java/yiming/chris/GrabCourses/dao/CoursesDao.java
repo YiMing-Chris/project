@@ -25,7 +25,7 @@ public interface CoursesDao {
 
     //通过学号获取抢课课程详情
     @Select("SELECT c.* FROM courses c LEFT JOIN qiangke_order qo ON c.id = qo.courses_id and qo.student_id =#{StudentId} ")
-    CoursesVO getCoursesDetailByStudentId(@Param("CoursesId")  Long StudentId);
+    CoursesVO getCoursesDetailByStudentId(@Param("StudentId")  Long StudentId);
 
 
     @Select("SELECT c.*,  qc.stock_count, qc.start_date, qc.end_date FROM courses c INNER JOIN qiangke_courses qc ON c.id = qc.courses_id AND c.id = #{CoursesId}")
