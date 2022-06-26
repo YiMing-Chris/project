@@ -3,8 +3,11 @@ package yiming.chris.GrabCourses.mq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.stereotype.Component;
+import yiming.chris.GrabCourses.config.RabbitMQConfig;
 import yiming.chris.GrabCourses.domain.OrderInfo;
 import yiming.chris.GrabCourses.domain.SecKillOrder;
 import yiming.chris.GrabCourses.domain.Student;
@@ -20,6 +23,8 @@ import yiming.chris.GrabCourses.vo.CoursesVO;
  * Description:
  * @Author: ChrisEli
  */
+@Component
+@RabbitListener(queues = RabbitMQConfig.QUEUE)
 public class MQReceiver {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());

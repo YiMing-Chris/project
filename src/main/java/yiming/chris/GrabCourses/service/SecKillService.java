@@ -74,11 +74,11 @@ public class SecKillService {
 
     /**
      * 查询某课程的抢课活动是否结束
-     * @param goodsId
+     * @param courseId
      * @return
      */
-    private boolean getSecKillOver(Long goodsId) {
-        return redisTemplate.hasKey(CoursesKey.goodsSecKillOverKey.getPrefix() + ":" + goodsId);
+    private boolean getSecKillOver(Long courseId) {
+        return redisTemplate.hasKey(CoursesKey.goodsSecKillOverKey.getPrefix() + ":" + courseId);
     }
 
 }

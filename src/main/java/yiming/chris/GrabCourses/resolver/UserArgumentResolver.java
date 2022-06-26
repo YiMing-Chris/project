@@ -24,7 +24,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
 
     /**
-     * 判断是否支持对应的参数类型，即参数是否是User类型
+     * 判断是否支持对应的参数类型，即参数是否是Student类型
      * @param methodParameter 方法参数
      * @return
      */
