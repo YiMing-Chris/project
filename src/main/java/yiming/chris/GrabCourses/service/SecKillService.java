@@ -37,14 +37,16 @@ public class SecKillService {
     public OrderInfo secKill(Student student, CoursesVO course) {
         // 减少数据库课程的容量
         int updateRows = coursesService.reduceStock(course);
-        logger.info("当前课程容量为：" + course.getStockCount() + "，减少容量更新记录数为：" + updateRows);
+        logger.info("当前课程容量为：" + course.getStockCount() + "，更新记录：减少余量数为：" + updateRows);
         // 减少容量成功才进行抢课
         if (updateRows == 1) {
+            logger.info("创建选课记录");
             return orderService.createSecKillOrder(student, course);
         }
         // 如果容量没有更新成功，则不能进行抢课
         else {
             // 没有抢课成功，说明这门课程抢课结束了
+            logger.info("抢课失败");
             setSecKillOver(course.getId());
             return null;
         }

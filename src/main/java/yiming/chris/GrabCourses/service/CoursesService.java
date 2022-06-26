@@ -30,8 +30,8 @@ public class CoursesService {
     /**
      * 通过学号获取所有抢课课程详情
      */
-    public CoursesVO getCoursesVO(Long StudentId) {
-        return coursesDao.getCoursesVO(StudentId);
+    public CoursesVO getCoursesDetailByStudentId(Long StudentId) {
+        return coursesDao.getCoursesDetailByStudentId(StudentId);
     }
 
     /**

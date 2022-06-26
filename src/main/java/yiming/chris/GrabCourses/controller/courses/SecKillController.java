@@ -9,20 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import yiming.chris.GrabCourses.domain.SecKillOrder;
 import yiming.chris.GrabCourses.domain.Student;
 import yiming.chris.GrabCourses.message.SecKillMessage;
 import yiming.chris.GrabCourses.mq.MQSender;
 import yiming.chris.GrabCourses.redis.CoursesKey;
 import yiming.chris.GrabCourses.result.CodeMsg;
-import yiming.chris.GrabCourses.result.ServerResponse;
 import yiming.chris.GrabCourses.service.CoursesService;
 import yiming.chris.GrabCourses.service.OrderService;
 import yiming.chris.GrabCourses.service.SecKillService;
 import yiming.chris.GrabCourses.vo.CoursesVO;
 
-import javax.tools.Diagnostic;
 import java.util.HashMap;
 import java.util.List;
 
@@ -109,7 +106,7 @@ public class SecKillController implements InitializingBean {
             return "kill_fail";
         }
         model.addAttribute("user", student);
-        CoursesVO coursesVO = coursesService.getCoursesVO(student.getId());
+        CoursesVO coursesVO = coursesService.getCoursesDetailByStudentId(student.getId());
         model.addAttribute("course", coursesVO);
         // 获取用户抢课结果
         Long status = secKillService.getSecKillResult(student.getId(), coursesId);
