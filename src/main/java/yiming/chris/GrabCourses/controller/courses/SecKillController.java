@@ -1,5 +1,8 @@
 package yiming.chris.GrabCourses.controller.courses;
 
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.Redisson;
+import org.redisson.api.RLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,8 +23,10 @@ import yiming.chris.GrabCourses.service.OrderService;
 import yiming.chris.GrabCourses.service.SecKillService;
 import yiming.chris.GrabCourses.vo.CoursesVO;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * ClassName:SecKillController
@@ -32,9 +37,11 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/grab")
+@Slf4j
 public class SecKillController implements InitializingBean {
     private Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
     volatile Long nowStock;
+
     @Autowired
     private CoursesService coursesService;
     @Autowired
@@ -45,6 +52,7 @@ public class SecKillController implements InitializingBean {
     private MQSender mqSender;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
 
     /**
      * 内存标记Map，key为商品id，value为是否秒杀结束，用于减少对Redis的访问
@@ -59,33 +67,49 @@ public class SecKillController implements InitializingBean {
         }
         model.addAttribute("user", student);
 
-        // 先访问内存标记，查看是否卖完
-        if (coursesSecKillOverMap.get(coursesId)) {
+//         先访问内存标记，查看是否卖完或者存在
+        if (coursesSecKillOverMap.get(coursesId) || !coursesSecKillOverMap.containsKey(coursesId)) {
             model.addAttribute("errorMsg", CodeMsg.SECKILL_OVER.getMsg());
+            log.info(student.getId() + "：被内存缓存阻挡");
             return "kill_fail";
         }
 
+
         // 判断是否已经秒杀到商品，防止一人多次秒杀成功
-        SecKillOrder order = orderService.getSecKillOrderByStudentIdAndCoursesId(student.getId(), coursesId);
-        if (order != null) {
+        SecKillOrder order1 = orderService.getSecKillOrderByStudentIdAndCoursesId(student.getId(), coursesId);
+        if (order1 != null) {
             model.addAttribute("errorMsg", CodeMsg.SECKILL_REPEAT.getMsg());
             return "kill_fail";
         }
 
         // Redis预减容量
         nowStock = redisTemplate.opsForValue().decrement(CoursesKey.courseStockKey.getPrefix() + ":" + coursesId);
-        logger.info("课程" + coursesId + "预减完Redis当前余量为：" + nowStock);
+        logger.info(student.getId() + " 抢课程 " + coursesId + "预减完Redis当前余量为：" + nowStock);
 
         // 如果库存预减完毕，则直接返回秒杀失败
         if (nowStock < 0) {
             // 记录当前商品秒杀完毕
             coursesSecKillOverMap.put(coursesId, true);
             model.addAttribute("errorMsg", CodeMsg.SECKILL_OVER.getMsg());
+            log.info(student.getId() + "：被Redis缓存阻挡");
             return "kill_fail";
         }
 
-        // 正常进入秒杀流程：入队进行异步下单
+         //正常进入秒杀流程：入队进行异步下单
         mqSender.sendSecKillMessage(new SecKillMessage(student, coursesId));
+/**       *关闭消息队列后
+ //判断容量
+ CoursesVO course = coursesService.getCoursesDetailById(coursesId);
+ if (course.getStockCount() <= 0) {
+ return "kill_fail";
+ }
+ SecKillOrder order2 = orderService.getSecKillOrderByStudentIdAndCoursesId(student.getId(), coursesId);
+
+ if (order2 != null) {
+ return "kill_fail";
+ }
+ OrderInfo orderInfo = secKillService.secKill(student, course);
+ */
         model.addAttribute("killMsg", CodeMsg.SECKILL_WAITTING.getMsg());
         model.addAttribute("user", student);
         model.addAttribute("coursesId", coursesId);
@@ -113,9 +137,9 @@ public class SecKillController implements InitializingBean {
         String Msg;
         if (status == -1L) {
             Msg = "抢课失败";
-        }else if(status == 0L){
+        } else if (status == 0L) {
             Msg = "排队中";
-        }else{
+        } else {
             Msg = "抢课成功";
         }
         model.addAttribute("status", Msg);

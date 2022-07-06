@@ -37,7 +37,7 @@ public class SecKillService {
     public OrderInfo secKill(Student student, CoursesVO course) {
         // 减少数据库课程的容量
         int updateRows = coursesService.reduceStock(course);
-        logger.info("当前课程容量为：" + course.getStockCount() + "，更新记录：减少余量数为：" + updateRows);
+        logger.info(student.getId()+" : " + course.getStockCount() + "，更新记录：减少余量数为：" + updateRows);
         // 减少容量成功才进行抢课
         if (updateRows == 1) {
             logger.info("创建选课记录");

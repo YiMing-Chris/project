@@ -95,7 +95,8 @@ import java.util.concurrent.TimeUnit;
         }
 
         /**
-         * 返回页面，被拦截器拦截需要登录却没有登录
+         * 需要登录却没有登录
+         * 返回页面，被拦截器拦截
          * @param response
          * @param codeMsg
          */
@@ -108,7 +109,7 @@ import java.util.concurrent.TimeUnit;
             outputStream.close();
         }
 
-        //从request中获取登录用户的的
+        //从request中获取登录用户
         public Student getUser(HttpServletRequest request) {
             String paramToken = request.getParameter(StudentService.COOKIE_TOKEN_NAME);
             String cookieToken = getCookieValue(request, StudentService.COOKIE_TOKEN_NAME);

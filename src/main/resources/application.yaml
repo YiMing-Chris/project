@@ -1,3 +1,5 @@
+server:
+  port: 8081
 spring:
   thymeleaf:
     cache: false
@@ -12,9 +14,10 @@ spring:
   # config druid
   datasource:
     druid:
-      url: jdbc:mysql://43.142.73.234:3306/qiangke?
+      url: jdbc:mysql://localhost:3306/qiangke?serverTimezone=UTC
+      ##url: jdbc:mysql://43.142.73.234:3306/qiangke
       username: root
-      password: 1234
+      password: 12345678
       driver-class-name: com.mysql.cj.jdbc.Driver
       initial-size: 100
       max-active: 1000
@@ -32,7 +35,7 @@ spring:
 
   # config redis
   redis:
-    host: 43.142.73.234
+    host: localhost
     port: 6379
     timeout: 5000
     lettuce:

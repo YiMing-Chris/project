@@ -32,6 +32,6 @@ public interface CoursesDao {
     CoursesVO getCoursesDetailById(@Param("CoursesId") Long CoursesId);
 
 
-    @Update("UPDATE qiangke_courses SET stock_count = stock_count - 1 WHERE courses_id = #{CoursesId} AND stock_count > 0")
+    @Update("UPDATE qiangke_courses SET stock_count = stock_count - 1 WHERE courses_id = #{CoursesId} AND stock_count > 0 ")
     int updateStock(SecKillCourses g);
 }

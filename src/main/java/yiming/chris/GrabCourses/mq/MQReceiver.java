@@ -21,6 +21,7 @@ import yiming.chris.GrabCourses.vo.CoursesVO;
  * ClassName:MQReceiver
  * Package:yiming.chris.GrabCourses.mq
  * Description:
+ *
  * @Author: ChrisEli
  */
 @Component
@@ -37,11 +38,11 @@ public class MQReceiver {
 
 
     @RabbitHandler
-    public void receiveSecKillMessage(@Payload SecKillMessage secKillMessage) {
+    public void receiveSecKillMessage1(@Payload SecKillMessage secKillMessage) {
         Student student = secKillMessage.getStudent();
         Long CourseId = secKillMessage.getCoursesId();
 
-        logger.info("收到用户" + student.getId() + "秒杀" + CourseId + "商品请求");
+        logger.info("队列1收到用户" + student.getId() + "秒杀" + CourseId + "商品请求");
 
         // 判断容量
         CoursesVO course = coursesService.getCoursesDetailById(CourseId);

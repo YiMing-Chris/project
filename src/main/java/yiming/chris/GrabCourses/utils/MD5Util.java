@@ -2,6 +2,11 @@ package yiming.chris.GrabCourses.utils;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.ibatis.javassist.tools.rmi.Sample;
+import yiming.chris.GrabCourses.domain.Student;
+
+import javax.servlet.ServletOutputStream;
+
+import java.nio.charset.StandardCharsets;
 
 import static yiming.chris.GrabCourses.utils.ValidateSaltUtil.generate12ValidateSalt;
 
@@ -58,11 +63,42 @@ public class MD5Util {
         return formPasswordToDBPassword(userPasswordToFormPassowrd(userPassword), randomSalt);
     }
 
+    /**
+     * 字符串大小计算器
+     * @param text
+     */
+    public static long getStringSize(String text) {
+        byte[] textlength = text.getBytes(StandardCharsets.UTF_8); //得到占多少 bytes
+
+        long size = textlength.length/1024; //得到字符串占多少 KB
+
+        return size;
+
+    }
     //密码测试
     public static void main(String[] args) {
-        String salt = generate12ValidateSalt();
-        System.out.println(userPasswordToDBPassword("password0", salt));
-        System.out.println(salt);
+//        String salt = generate12ValidateSalt();
+//        System.out.println(userPasswordToDBPassword("password0", salt));
+//        System.out.println(salt);
+        String text = "  \"@class\": \"yiming.chris.GrabCourses.domain.Student\",\n" +
+                "  \"id\": 19195102,\n" +
+                "  \"nickname\": \"student1\",\n" +
+                "  \"password\": \"37b7e8fdb1d6881344bfc3c015ef6819\",\n" +
+                "  \"salt\": \"NOGPWGOmsgcw\",\n" +
+                "  \"registerDate\": [\n" +
+                "    \"java.util.Date\",\n" +
+                "    1656180854000\n" +
+                "  ],\n" +
+                "  \"lastLoginDate\": [\n" +
+                "    \"java.util.Date\",\n" +
+                "    1656180854000\n" +
+                "  ],\n" +
+                "  \"loginCount\": 0 ";
+//        System.out.println(getStringSize(text));
+        for(int i=0;i < 10000 ;i++) {
+            System.out.print(19195101L + i);
+            System.out.println(","+userPasswordToFormPassowrd("password" + i));
+        }
     }
     
 

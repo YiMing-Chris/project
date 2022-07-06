@@ -1,5 +1,6 @@
 package yiming.chris.GrabCourses.service;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import yiming.chris.GrabCourses.redis.OrderKey;
 import yiming.chris.GrabCourses.vo.CoursesVO;
 
 import java.util.Date;
+import java.util.logging.Logger;
 
 /**
  * ClassName:OrderService
@@ -20,6 +22,7 @@ import java.util.Date;
  * @Author: ChrisEli
  */
 @Service
+@Log4j2
 public class OrderService {
 
     @Autowired
@@ -33,7 +36,13 @@ public class OrderService {
     public SecKillOrder getSecKillOrderByStudentIdAndCoursesId(Long StudentId, Long CoursesId) {
         // 先从缓存中查看，如果没有从数据库中查询
         SecKillOrder secKillOrder = getSecKillOrderByStudentIdAndCoursesIdFromCache(StudentId, CoursesId);
-        return secKillOrder != null ? secKillOrder : orderDao.getSecKillOrderByStudentIdAndCoursesId(StudentId, CoursesId);
+        if(secKillOrder != null ){
+            log.info("从缓存中查看 {} 数据",StudentId);
+            return secKillOrder ;
+        }else{
+            log.info("从数据库中查看 {} 数据",StudentId);
+            return orderDao.getSecKillOrderByStudentIdAndCoursesId(StudentId, CoursesId);
+        }
     }
 
     /**

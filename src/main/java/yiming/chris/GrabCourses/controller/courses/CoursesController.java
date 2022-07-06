@@ -1,5 +1,6 @@
 package yiming.chris.GrabCourses.controller.courses;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +18,11 @@ import java.util.List;
  * ClassName:CoursesController
  * Package:yiming.chris.GrabCourses.controller.courses
  * Description:
+ *
  * @Author: ChrisEli
  */
 @Controller
+@Slf4j
 @RequestMapping("/courses")
 public class CoursesController {
     @Autowired
@@ -29,7 +32,8 @@ public class CoursesController {
 
     /**
      * 展示课程列表
-     * @param model 将信息加入model用于页面展示
+     *
+     * @param model   将信息加入model用于页面展示
      * @param student 通过UserArgumentResolver解析参数token获取user对象
      * @return
      */
@@ -39,11 +43,13 @@ public class CoursesController {
         model.addAttribute("user", student);
         List<CoursesVO> goods = coursesService.getCoursesVOs();
         model.addAttribute("coursesList", goods);
+        log.info(student.getId() + "：查看了课程列表");
         return "courses_list";
     }
 
     /**
      * 展示商品详情页面
+     *
      * @param model
      * @param student
      * @return
