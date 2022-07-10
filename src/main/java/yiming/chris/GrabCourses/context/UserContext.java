@@ -19,4 +19,9 @@ public class UserContext {
     public static Student getStudent() {
         return userThreadLocal.get();
     }
+
+    public static void main(String[] args) {
+        System.out.println(userThreadLocal+"");
+        System.out.println(UserContext.getStudent());
+    }
 }

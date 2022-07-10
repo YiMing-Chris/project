@@ -51,6 +51,7 @@ import java.util.concurrent.TimeUnit;
                 // 获取用户并保存到ThreadLocal中
                 Student student = getUser(request);
                 UserContext.setUser(student);
+                System.out.println("当前线程用户: " +UserContext.getStudent().getId());
 
                 HandlerMethod handlerMethod = (HandlerMethod) handler;
                 // 获取方法上@AccessLimit的注解
@@ -88,9 +89,11 @@ import java.util.concurrent.TimeUnit;
                 // 超出最大访问次数限制，拒绝后续访问
                 else {
                     render(response, CodeMsg.ACCESS_BEYOND_LIMIT);
+                    System.out.println(UserContext.getStudent().getId()+"出最大访问次数限制，拒绝后续访问");
                     return false;
                 }
             }
+            System.out.println(UserContext.getStudent().getId()+" 放行");
             return true;
         }
 

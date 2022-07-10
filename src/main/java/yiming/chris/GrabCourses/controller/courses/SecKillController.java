@@ -58,7 +58,7 @@ public class SecKillController implements InitializingBean {
      * 内存标记Map，key为商品id，value为是否秒杀结束，用于减少对Redis的访问
      * 该内存标记非线程安全，但不会影响功能，只是有多个线程多次复写某商品卖完
      */
-    private HashMap<Long, Boolean> coursesSecKillOverMap = new HashMap<>();
+    private ConcurrentHashMap<Long, Boolean> coursesSecKillOverMap = new ConcurrentHashMap<>();
 
     @RequestMapping("/grab")
     public String asyncSecKill(Model model, Student student, @RequestParam("coursesId") Long coursesId) {
