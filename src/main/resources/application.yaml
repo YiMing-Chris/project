@@ -16,8 +16,8 @@ spring:
     druid:
       url: jdbc:mysql://localhost:3306/qiangke?serverTimezone=UTC
       ##url: jdbc:mysql://43.142.73.234:3306/qiangke
-      username: root
-      password: 12345678
+      username: #你的账号
+      password: #你的密码
       driver-class-name: com.mysql.cj.jdbc.Driver
       initial-size: 100
       max-active: 1000
@@ -46,11 +46,13 @@ spring:
 
   # config rabbitmq
   rabbitmq:
-    host: 43.142.73.234
+    host: #你的rabbitmq host
     port: 5672
-    username: admin
-    password: admin
+    username: #你的账号
+    password: #你的密码
     virtual-host: mq_vhost  # docker容器中配置的名称
+    publisher-confirms: true  #交换机是否收到消息确认
+    publisher-returns: true     # 队列是否收到消息确认,默认false
     listener:
       simple:
         concurrency: 10  # 最小的消费者线程数量
@@ -65,11 +67,16 @@ spring:
         max-attempts: 3
         max-interval: 10000
         multiplier: 1.0
+      mandatory: true
+
+#publisher-confirms：设置为true时。当消息投递到Exchange后，会回调confirm()方法进行通知生产者
+#publisher-returns：设置为true时。当消息匹配到Queue并且失败时，会通过回调returnedMessage()方法返回消息
+#spring.rabbitmq.template.mandatory: 设置为true时。指定消息在没有被队列接收时会通过回调returnedMessage()方法退回。
 
 # config mybatis (http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/index.html)
 mybatis:
-    type-aliases-package: yiming.chris.GrabCourses.domainn
-    configuration:
-        map-underscore-to-camel-case: true
-        default-fetch-size: 100
-        default-statement-timeout: 3000
+  type-aliases-package: yiming.chris.GrabCourses.domainn
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 3000
