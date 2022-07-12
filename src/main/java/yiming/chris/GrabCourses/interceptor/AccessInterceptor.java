@@ -93,7 +93,7 @@ import java.util.concurrent.TimeUnit;
                     return false;
                 }
             }
-            System.out.println(UserContext.getStudent().getId()+" 放行");
+
             return true;
         }
 

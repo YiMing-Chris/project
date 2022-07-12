@@ -1,8 +1,6 @@
 package yiming.chris.GrabCourses.controller.courses;
 
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.Redisson;
-import org.redisson.api.RLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -23,8 +21,6 @@ import yiming.chris.GrabCourses.service.OrderService;
 import yiming.chris.GrabCourses.service.SecKillService;
 import yiming.chris.GrabCourses.vo.CoursesVO;
 
-import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -60,21 +56,19 @@ public class SecKillController implements InitializingBean {
      */
     private ConcurrentHashMap<Long, Boolean> coursesSecKillOverMap = new ConcurrentHashMap<>();
 
+
     @RequestMapping("/grab")
     public String asyncSecKill(Model model, Student student, @RequestParam("coursesId") Long coursesId) {
         if (student == null) {
             return "login";
         }
         model.addAttribute("user", student);
-
 //         先访问内存标记，查看是否卖完或者存在
         if (coursesSecKillOverMap.get(coursesId) || !coursesSecKillOverMap.containsKey(coursesId)) {
             model.addAttribute("errorMsg", CodeMsg.SECKILL_OVER.getMsg());
             log.info(student.getId() + "：被内存缓存阻挡");
             return "kill_fail";
         }
-
-
         // 判断是否已经秒杀到商品，防止一人多次秒杀成功
         SecKillOrder order1 = orderService.getSecKillOrderByStudentIdAndCoursesId(student.getId(), coursesId);
         if (order1 != null) {
@@ -161,6 +155,9 @@ public class SecKillController implements InitializingBean {
                         coursesVO.getStockCount());
                 coursesSecKillOverMap.put(coursesVO.getId(), false);
             }
+            logger.info("redis加载课程完毕");
+            logger.info("内存加载完毕");
         }
+
     }
 }

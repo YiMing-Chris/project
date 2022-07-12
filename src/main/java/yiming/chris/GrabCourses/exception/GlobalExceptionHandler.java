@@ -28,6 +28,8 @@ public class GlobalExceptionHandler {
     public ServerResponse<CodeMsg> exceptionHandler(HttpServletRequest request, Exception e) {
         // 打印log
         logger.error(e.getMessage());
+        logger.error(String.valueOf(e));
+        e.printStackTrace();
 
         // 参数校验异常
         if (e instanceof BindException) {

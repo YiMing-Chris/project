@@ -21,7 +21,7 @@ public class UserContext {
     }
 
     public static void main(String[] args) {
-        System.out.println(userThreadLocal+"");
+        System.out.println("当前线程："+Thread.currentThread()+" | "+userThreadLocal+"");
         System.out.println(UserContext.getStudent());
     }
 }
