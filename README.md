@@ -3,7 +3,7 @@
 ## 作业名称
 
 《抢选课系统》
-[Github地址](https://github.com/YiMing-Chris/project)
+[CSDN地址](https://blog.csdn.net/Chris_Eli/article/details/125706455?csdn_share_tail=%7B%22type%22%3A%22blog%22%2C%22rType%22%3A%22article%22%2C%22rId%22%3A%22125706455%22%2C%22source%22%3A%22Chris_Eli%22%7D&ctrtid=32no5)
 
 ## 项目描述
 
