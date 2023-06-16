@@ -6,7 +6,7 @@
     <packaging>jar</packaging>
 
     <groupId>yiming.chris</groupId>
-    <artifactId>GrabCourses</artifactId>
+    <artifactId>CourseSelectSystem</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <!-- Inherit defaults from Spring Boot -->
