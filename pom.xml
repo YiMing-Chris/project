@@ -103,7 +103,7 @@
             </plugin>
         </plugins>
         <finalName>GrabCourses-springboot</finalName>
-        <directory>C:\Users\56853\Desktop\school</directory>
+        <directory>D:\code\56853\Desktop\school</directory>
     </build>
 
 </project>

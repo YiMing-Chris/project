@@ -8,6 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="school" />
+      </profile>
+      <profile name="Annotation profile for CourseSelectSystem" enabled="true">
+        <sourceOutputDir name="../56853/Desktop/school/generated-sources/annotations" />
+        <sourceTestOutputDir name="../56853/Desktop/school/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
         <module name="CourseSelectSystem" />
       </profile>
     </annotationProcessing>
