@@ -9,10 +9,17 @@
         <outputRelativeToContentRoot value="true" />
         <module name="school" />
       </profile>
+      <profile name="Annotation profile for CourseSelectSystem" enabled="true">
+        <sourceOutputDir name="../56853/Desktop/school/generated-sources/annotations" />
+        <sourceTestOutputDir name="../56853/Desktop/school/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="CourseSelectSystem" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CourseSelectSystem" options="-parameters" />
       <module name="school" options="-parameters" />
     </option>
   </component>

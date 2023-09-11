@@ -14,10 +14,10 @@ spring:
   # config druid
   datasource:
     druid:
-      url: jdbc:mysql://localhost:3306/qiangke?serverTimezone=UTC
+      url: jdbc:mysql://8.130.129.206:3306/qiangke?serverTimezone=UTC
       ##url: jdbc:mysql://43.142.73.234:3306/qiangke
-      username: #你的账号
-      password: #你的密码
+      username: root
+      password: 568568Root@
       driver-class-name: com.mysql.cj.jdbc.Driver
       initial-size: 100
       max-active: 1000
@@ -35,7 +35,7 @@ spring:
 
   # config redis
   redis:
-    host: localhost
+    host: 8.130.129.206
     port: 6379
     timeout: 5000
     lettuce:
@@ -46,10 +46,10 @@ spring:
 
   # config rabbitmq
   rabbitmq:
-    host: #你的rabbitmq host
+    host: 8.130.136.61
     port: 5672
-    username: #你的账号
-    password: #你的密码
+    username: root
+    password: root
     virtual-host: mq_vhost  # docker容器中配置的名称
     publisher-confirms: true  #交换机是否收到消息确认
     publisher-returns: true     # 队列是否收到消息确认,默认false
